@@ -1,53 +1,80 @@
+"use client";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 pt-16">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-white dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 pt-16">
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-20">
-          <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 dark:text-white mb-8">
-            Your Journey to
-            <span className="text-blue-600 dark:text-blue-400"> Triathlon </span>
-            Excellence
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
+        >
+          <h1 className="text-5xl sm:text-7xl font-bold text-gray-900 dark:text-white mb-8">
+            Transform into a
+            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"> Triathlete </span>
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto">
-            Comprehensive 2-month training plans that adapt to your progress and schedule
-          </p>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto"
+          >
+            Your personalized to triathlon mastery
+          </motion.p>
 
-          <div className="flex gap-4 justify-center mb-16">
-            <a
+          <div className="flex gap-6 justify-center mb-16">
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               href="/create-plan"
-              className="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition"
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition-all"
             >
-              Start Your Plan
-            </a>
-            <a
+              Begin Your Journey
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               href="/sample-plan"
-              className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold border border-blue-600 hover:bg-blue-50 transition"
+              className="bg-white text-blue-600 px-10 py-4 rounded-full font-semibold border-2 border-blue-600 hover:bg-blue-50 transition-all"
             >
               View Sample Plan
-            </a>
+            </motion.a>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left mb-20">
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm">
-              <h3 className="text-lg font-semibold mb-2">🏊‍♂️ Swim Training</h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Structured swim workouts with technique analysis and pacing strategies
-              </p>
-            </div>
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm">
-              <h3 className="text-lg font-semibold mb-2">🚴‍♂️ Cycling Progress</h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Power-based training zones and route planning for optimal preparation
-              </p>
-            </div>
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm">
-              <h3 className="text-lg font-semibold mb-2">🏃‍♂️ Run Development</h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Progressive run training with heart rate monitoring and pace guidance
-              </p>
-            </div>
+            {[
+              {
+                icon: "🏊‍♂️",
+                title: "Swim Training",
+                desc: "Master the water with expert technique analysis"
+              },
+              {
+                icon: "🚴‍♂️",
+                title: "Cycling Progress",
+                desc: "Dominate the roads with power-based training"
+              },
+              {
+                icon: "🏃‍♂️",
+                title: "Run Development",
+                desc: "Perfect your pace with smart progression"
+              }
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 * index }}
+                whileHover={{ scale: 1.03 }}
+                className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg hover:shadow-xl transition-all"
+              >
+                <div className="text-4xl mb-4">{item.icon}</div>
+                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{item.desc}</p>
+              </motion.div>
+            ))}
           </div>
 
           <section className="mb-20">
@@ -95,12 +122,12 @@ export default function Home() {
               </div>
             </div>
           </section>
-        </div>
+        </motion.div>
       </main>
 
       <footer className="border-t border-gray-200 dark:border-gray-700 py-8">
         <div className="max-w-6xl mx-auto px-4 text-center text-gray-600 dark:text-gray-400">
-          © 2024 AdventDaily. Achieve your triathlon dreams.
+          © 2025 AdventDaily. Your triathlon journey starts here.
         </div>
       </footer>
     </div>
