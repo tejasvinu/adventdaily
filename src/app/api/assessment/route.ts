@@ -134,3 +134,45 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function GET(request: Request) {
+  try {
+    await connectToDatabase();
+    const cookieStore = await cookies();
+    const token = cookieStore.get('token');
+
+    if (!token?.value) {
+      return NextResponse.json(
+        { message: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const decoded = verify(token.value, JWT_SECRET) as { userId: string };
+    
+    // Get URL parameters
+    const { searchParams } = new URL(request.url);
+    const queryUserId = searchParams.get('userId');
+    
+    // Use either query userId or token userId
+    const targetUserId = queryUserId || decoded.userId;
+
+    const assessment = await Assessment.findOne({ userId: targetUserId });
+    
+    if (!assessment) {
+      return NextResponse.json(
+        { message: 'Assessment not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(assessment);
+
+  } catch (error) {
+    console.error('Error fetching assessment:', error);
+    return NextResponse.json(
+      { message: 'Error fetching assessment', error: (error as Error).message },
+      { status: 500 }
+    );
+  }
+}

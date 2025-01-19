@@ -8,7 +8,12 @@ export interface IAssessment extends Document, AssessmentDocument {
 }
 
 const AssessmentSchema = new Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  userId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User',
+    required: true,
+    index: true 
+  },
   personalInfo: {
     age: { type: Number, required: true },
     gender: { type: String, required: true },
