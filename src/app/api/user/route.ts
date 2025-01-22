@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { verify } from 'jsonwebtoken';
 import connectToDatabase from '@/lib/mongodb';
 import User from '@/models/User';
@@ -9,9 +9,15 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 export async function GET() {
   try {
-    // Get token from cookies
     const cookieStore = await cookies();
-    const token = cookieStore.get('token');
+    const headerList = await headers();
+    
+    // Check both cookie and Authorization header
+    const cookieToken = cookieStore.get('token');
+    const authHeader = headerList.get('authorization');
+    const bearerToken = authHeader?.startsWith('Bearer ') ? authHeader.substring(7) : null;
+    
+    const token = cookieToken?.value || bearerToken;
 
     if (!token) {
       return NextResponse.json(
@@ -20,34 +26,34 @@ export async function GET() {
       );
     }
 
-    const decoded = verify(token.value, JWT_SECRET) as { userId: string };
-    await connectToDatabase();
+    try {
+      const decoded = verify(token, JWT_SECRET) as { userId: string };
+      await connectToDatabase();
 
-    // First find the user
-    const user = await User.findById(decoded.userId).select('-password');
-    if (!user) {
+      const user = await User.findById(decoded.userId).select('-password');
+      if (!user) {
+        return NextResponse.json(
+          { error: 'User not found' },
+          { status: 404 }
+        );
+      }
+
+      const assessment = await Assessment.findOne({ userId: user._id });
+
+      return NextResponse.json({
+        user,
+        assessment
+      });
+    } catch (jwtError) {
       return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
+        { error: 'Invalid token' },
+        { status: 401 }
       );
     }
-
-    console.log('Found user:', user._id); // Debug log
-
-    // Find assessment directly by userId instead of assessmentId
-    const assessment = await Assessment.findOne({ userId: user._id });
-    
-    console.log('Assessment found:', assessment ? 'yes' : 'no'); // Debug log
-
-    return NextResponse.json({
-      user,
-      assessment
-    });
-
   } catch (error) {
-    console.error('Detailed error in user route:', error);
+    console.error('Error in user route:', error);
     return NextResponse.json(
-      { error: 'Internal server error', details: (error as Error).message },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }

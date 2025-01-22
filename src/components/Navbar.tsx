@@ -33,17 +33,17 @@ export default function Navbar() {
           
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-4">
-              <Link href="/training" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 px-3 py-2 rounded-md">
-                Training Plans
+              <Link href="/workout-plan" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 px-3 py-2 rounded-md">
+              Training Plan
               </Link>
               <Link href="/progress" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 px-3 py-2 rounded-md">
                 Progress
               </Link>
-              <Link href="/community" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 px-3 py-2 rounded-md">
-                Community
-              </Link>
               <Link href="/resources" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 px-3 py-2 rounded-md">
                 Resources
+              </Link>
+              <Link href="/assessment-review" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 px-3 py-2 rounded-md">
+                Assessment Review
               </Link>
               {isLoggedIn ? (
                 <>
@@ -99,17 +99,17 @@ export default function Navbar() {
       {isMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white dark:bg-gray-900">
-            <Link href="/training" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 block px-3 py-2 rounded-md">
-              Training Plans
+            <Link href="/workout-plan" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 block px-3 py-2 rounded-md">
+            Training Plan
             </Link>
             <Link href="/progress" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 block px-3 py-2 rounded-md">
               Progress
             </Link>
-            <Link href="/community" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 block px-3 py-2 rounded-md">
-              Community
-            </Link>
             <Link href="/resources" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 block px-3 py-2 rounded-md">
               Resources
+            </Link>
+            <Link href="/assessment-review" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 block px-3 py-2 rounded-md">
+              Assessment Review
             </Link>
             {isLoggedIn ? (
               <>

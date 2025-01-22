@@ -20,14 +20,15 @@ export default function Login() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
+        credentials: 'include', // Important: include credentials
       });
 
+      const data = await res.json();
+      
       if (res.ok) {
-        const data = await res.json();
-        localStorage.setItem('token', data.token); // Store the JWT token
+        localStorage.setItem('token', data.token); // Store token in localStorage
         router.push('/dashboard');
       } else {
-        const data = await res.json();
         setError(data.message || 'Login failed');
       }
     } catch (err) {

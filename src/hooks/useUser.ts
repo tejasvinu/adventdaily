@@ -20,7 +20,14 @@ export function useUser() {
   useEffect(() => {
     async function fetchUserData() {
       try {
-        const response = await fetch('/api/user');
+        const token = localStorage.getItem('token');
+        const response = await fetch('/api/user', {
+          credentials: 'include', // Add this line to include cookies
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : '', // Include token in header
+          },
+        });
         if (!response.ok) throw new Error('Failed to fetch user data');
         const data = await response.json();
         setUserData({

@@ -6,6 +6,13 @@ import ExperienceStep from '@/components/assessment/ExperienceStep';
 import CurrentFitnessStep from '@/components/assessment/CurrentFitnessStep';
 import MedicalStep from '@/components/assessment/MedicalStep';
 import TrainingStep from '@/components/assessment/TrainingStep';
+import PhysicalMetricsStep from '@/components/assessment/PhysicalMetricsStep';
+import NutritionStep from '@/components/assessment/NutritionStep';
+import WellbeingStep from '@/components/assessment/WellbeingStep';
+import FacilitiesStep from '@/components/assessment/FacilitiesStep';
+import RecoveryStep from '@/components/assessment/RecoveryStep';
+import GoalsStep from '@/components/assessment/GoalsStep';
+import SocialStep from '@/components/assessment/SocialStep';
 import { AssessmentFormData } from '@/types/assessment';
 
 const initialFormState: AssessmentFormData = {
@@ -59,6 +66,59 @@ const initialFormState: AssessmentFormData = {
     hasGymAccess: false,
     trainingPreference: '',
     additionalNotes: ''
+  },
+  physicalMetrics: {
+    height: '',
+    weight: '',
+    bodyFat: '',
+    restingHeartRate: '',
+    maxHeartRate: ''
+  },
+  nutrition: {
+    dailyCalories: '',
+    dietaryRestrictions: [],
+    mealFrequency: '',
+    hydrationHabits: ''
+  },
+  wellbeing: {
+    averageSleepHours: '',
+    sleepQuality: '',
+    stressLevel: '',
+    energyLevel: ''
+  },
+  facilities: {
+    hasOpenWaterAccess: false,
+    openWaterDetails: '',
+    hasBikeTrainer: false,
+    hasTreadmill: false,
+    weatherConstraints: ''
+  },
+  recovery: {
+    warmupRoutine: '',
+    cooldownRoutine: '',
+    mobilityWork: [],
+    therapyFrequency: ''
+  },
+  metrics: {
+    usesWearableDevice: false,
+    deviceType: '',
+    trackedMetrics: [],
+    preferredRPEScale: ''
+  },
+  goals: {
+    targetFinishTime: '',
+    secondaryGoals: [],
+    paceGoals: {
+      swim: '',
+      bike: '',
+      run: ''
+    }
+  },
+  social: {
+    needsGroupTraining: false,
+    hasTrainingPartner: false,
+    partnerFitnessLevel: '',
+    onlineCommunities: []
   }
 };
 
@@ -172,6 +232,80 @@ export default function Assessment() {
           return false;
         }
         break;
+
+      case 6: // Physical Metrics
+        const { height, weight } = formData.physicalMetrics;
+        if (!height || !weight) {
+          setError('Height and weight are required');
+          return false;
+        }
+        if (parseInt(height) < 100 || parseInt(height) > 250) {
+          setError('Please enter a valid height in cm (100-250)');
+          return false;
+        }
+        if (parseInt(weight) < 30 || parseInt(weight) > 200) {
+          setError('Please enter a valid weight in kg (30-200)');
+          return false;
+        }
+        break;
+
+      case 7: // Nutrition
+        if (!formData.nutrition.dailyCalories || !formData.nutrition.mealFrequency) {
+          setError('Please fill in your daily calories and meal frequency');
+          return false;
+        }
+        if (!formData.nutrition.hydrationHabits) {
+          setError('Please describe your hydration habits');
+          return false;
+        }
+        break;
+
+      case 8: // Wellbeing
+        if (!formData.wellbeing.averageSleepHours || !formData.wellbeing.sleepQuality) {
+          setError('Please provide sleep information');
+          return false;
+        }
+        if (!formData.wellbeing.stressLevel || !formData.wellbeing.energyLevel) {
+          setError('Please rate your stress and energy levels');
+          return false;
+        }
+        break;
+
+      case 9: // Facilities
+        if (formData.facilities.hasOpenWaterAccess && !formData.facilities.openWaterDetails) {
+          setError('Please provide details about the open water facility');
+          return false;
+        }
+        if (!formData.facilities.weatherConstraints) {
+          setError('Please describe any weather-related constraints');
+          return false;
+        }
+        break;
+
+      case 10: // Recovery
+        if (!formData.recovery.warmupRoutine || !formData.recovery.cooldownRoutine) {
+          setError('Please describe your warm-up and cool-down routines');
+          return false;
+        }
+        break;
+
+      case 11: // Goals
+        if (!formData.goals.targetFinishTime) {
+          setError('Please set your target finish time');
+          return false;
+        }
+        if (formData.goals.secondaryGoals.length === 0) {
+          setError('Please select at least one secondary goal');
+          return false;
+        }
+        break;
+
+      case 12: // Social
+        if (formData.social.hasTrainingPartner && !formData.social.partnerFitnessLevel) {
+          setError('Please indicate your training partner\'s fitness level');
+          return false;
+        }
+        break;
     }
     return true;
   };
@@ -200,6 +334,20 @@ export default function Assessment() {
         return <MedicalStep formData={formData} updateFormData={updateFormData} />;
       case 5:
         return <TrainingStep formData={formData} updateFormData={updateFormData} />;
+      case 6:
+        return <PhysicalMetricsStep formData={formData} updateFormData={updateFormData} />;
+      case 7:
+        return <NutritionStep formData={formData} updateFormData={updateFormData} />;
+      case 8:
+        return <WellbeingStep formData={formData} updateFormData={updateFormData} />;
+      case 9:
+        return <FacilitiesStep formData={formData} updateFormData={updateFormData} />;
+      case 10:
+        return <RecoveryStep formData={formData} updateFormData={updateFormData} />;
+      case 11:
+        return <GoalsStep formData={formData} updateFormData={updateFormData} />;
+      case 12:
+        return <SocialStep formData={formData} updateFormData={updateFormData} />;
       default:
         return null;
     }
@@ -268,17 +416,17 @@ export default function Assessment() {
         {/* Progress steps */}
         <div className="mb-8">
           <div className="flex justify-between mb-2">
-            {[1, 2, 3, 4, 5].map((step) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((step) => (
               <div
                 key={step}
-                className={`w-1/5 h-2 rounded ${
+                className={`w-1/12 h-2 rounded ${
                   step <= currentStep ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               />
             ))}
           </div>
           <div className="text-sm text-gray-500 text-center">
-            Step {currentStep} of 5
+            Step {currentStep} of 12
           </div>
         </div>
 
@@ -301,7 +449,7 @@ export default function Assessment() {
                 Previous
               </button>
             )}
-            {currentStep < 5 ? (
+            {currentStep < 12 ? (
               <button
                 type="button"
                 onClick={handleNext}

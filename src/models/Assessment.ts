@@ -64,6 +64,63 @@ const AssessmentSchema = new Schema({
     hasGymAccess: { type: Boolean, default: false },
     trainingPreference: { type: String },
     additionalNotes: { type: String }
+  },
+  physicalMetrics: {
+    height: { type: Number, required: true },
+    weight: { type: Number, required: true },
+    bodyFat: { type: Number },
+    restingHeartRate: { type: Number },
+    maxHeartRate: { type: Number }
+  },
+  nutrition: {
+    dailyCalories: { type: String, required: true },
+    dietaryRestrictions: [String],
+    mealFrequency: { type: String, required: true },
+    hydrationHabits: { type: String, required: true }
+  },
+  wellbeing: {
+    averageSleepHours: { type: String, required: true },
+    sleepQuality: { type: String, required: true },
+    stressLevel: { type: String, required: true },
+    energyLevel: { type: String, required: true }
+  },
+  facilities: {
+    hasOpenWaterAccess: { type: Boolean, default: false },
+    openWaterDetails: { type: String },
+    hasBikeTrainer: { type: Boolean, default: false },
+    hasTreadmill: { type: Boolean, default: false },
+    weatherConstraints: { type: String, required: true }
+  },
+  recovery: {
+    warmupRoutine: { type: String, required: true },
+    cooldownRoutine: { type: String, required: true },
+    mobilityWork: [String],
+    therapyFrequency: { type: String, required: true }
+  },
+  metrics: {
+    usesWearableDevice: { type: Boolean, default: false },
+    deviceType: { type: String },
+    trackedMetrics: [String],
+    preferredRPEScale: { type: String }
+  },
+  goals: {
+    targetFinishTime: { type: String, required: true },
+    secondaryGoals: [String],
+    paceGoals: {
+      swim: { type: String },
+      bike: { type: String },
+      run: { type: String }
+    }
+  },
+  social: {
+    needsGroupTraining: { type: Boolean, default: false },
+    hasTrainingPartner: { type: Boolean, default: false },
+    partnerFitnessLevel: { type: String },
+    onlineCommunities: [String]
+  },
+  review: {
+    type: String,
+    default: null
   }
 }, {
   timestamps: true

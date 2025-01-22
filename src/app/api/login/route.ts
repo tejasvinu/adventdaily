@@ -32,10 +32,26 @@ export async function POST(request: Request) {
       { expiresIn: '1h' }
     );
 
-    return NextResponse.json(
-      { message: 'Login successful', token },
+    // Create the response
+    const response = NextResponse.json(
+      { message: 'Login successful', token }, // Include token in response body
       { status: 200 }
     );
+
+    // Set cookie as backup
+    response.cookies.set({
+      name: 'token',
+      value: token,
+      httpOnly: true,
+      secure: false, // Set to false for development
+      sameSite: 'lax', // Changed from strict to lax
+      path: '/',
+      maxAge: 60 * 60 // 1 hour
+    });
+
+    console.log('Setting token cookie:', token.substring(0, 20) + '...'); // Debug log
+
+    return response;
   } catch (error) {
     return NextResponse.json(
       { message: 'Error during login' },

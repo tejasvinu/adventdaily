@@ -10,49 +10,79 @@ import { validateAssessment } from '@/utils/validateAssessment';
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 const sanitizeAssessmentData = (data: AssessmentFormData) => {
-  // Convert age to number
+  // Convert numeric values
   const age = parseInt(data.personalInfo.age);
-  if (isNaN(age)) {
-    throw new Error('Invalid age value');
+  const height = parseFloat(data.physicalMetrics.height);
+  const weight = parseFloat(data.physicalMetrics.weight);
+  const bodyFat = data.physicalMetrics.bodyFat ? parseFloat(data.physicalMetrics.bodyFat) : null;
+  const restingHeartRate = data.physicalMetrics.restingHeartRate ? parseInt(data.physicalMetrics.restingHeartRate) : null;
+  const maxHeartRate = data.physicalMetrics.maxHeartRate ? parseInt(data.physicalMetrics.maxHeartRate) : null;
+
+  // Validate required numeric values
+  if (isNaN(age) || isNaN(height) || isNaN(weight)) {
+    throw new Error('Invalid numeric values for age, height, or weight');
   }
 
-  // Ensure arrays are properly formatted
+  // Ensure all arrays are properly initialized
   const sanitizedData = {
     ...data,
     personalInfo: {
       ...data.personalInfo,
       age
     },
+    physicalMetrics: {
+      height,
+      weight,
+      bodyFat,
+      restingHeartRate,
+      maxHeartRate
+    },
     experience: {
       ...data.experience,
-      completedDistances: Array.isArray(data.experience.completedDistances) 
-        ? data.experience.completedDistances 
-        : [],
-      recentRaceTimes: Array.isArray(data.experience.recentRaceTimes) 
-        ? data.experience.recentRaceTimes 
-        : [],
-      previousChallenges: Array.isArray(data.experience.previousChallenges) 
-        ? data.experience.previousChallenges 
-        : []
+      completedDistances: ensureArray(data.experience.completedDistances),
+      recentRaceTimes: ensureArray(data.experience.recentRaceTimes),
+      previousChallenges: ensureArray(data.experience.previousChallenges)
     },
     medical: {
       ...data.medical,
-      medications: Array.isArray(data.medical.medications) 
-        ? data.medical.medications 
-        : [],
-      allergies: Array.isArray(data.medical.allergies) 
-        ? data.medical.allergies 
-        : []
+      medications: ensureArray(data.medical.medications),
+      allergies: ensureArray(data.medical.allergies)
     },
     training: {
       ...data.training,
-      availableDays: Array.isArray(data.training.availableDays) 
-        ? data.training.availableDays 
-        : []
+      availableDays: ensureArray(data.training.availableDays)
+    },
+    nutrition: {
+      ...data.nutrition,
+      dietaryRestrictions: ensureArray(data.nutrition.dietaryRestrictions)
+    },
+    recovery: {
+      ...data.recovery,
+      mobilityWork: ensureArray(data.recovery.mobilityWork)
+    },
+    metrics: {
+      ...data.metrics,
+      trackedMetrics: ensureArray(data.metrics.trackedMetrics)
+    },
+    goals: {
+      ...data.goals,
+      secondaryGoals: ensureArray(data.goals.secondaryGoals)
+    },
+    social: {
+      ...data.social,
+      onlineCommunities: ensureArray(data.social.onlineCommunities)
     }
   };
 
   return sanitizedData;
+};
+
+// Helper function to ensure array values
+const ensureArray = (value: any[] | undefined): any[] => {
+  if (Array.isArray(value)) {
+    return value;
+  }
+  return [];
 };
 
 export async function POST(request: Request) {
