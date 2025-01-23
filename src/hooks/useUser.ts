@@ -22,10 +22,10 @@ export function useUser() {
       try {
         const token = localStorage.getItem('token');
         const response = await fetch('/api/user', {
-          credentials: 'include', // Add this line to include cookies
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': token ? `Bearer ${token}` : '', // Include token in header
+            'Authorization': token ? `Bearer ${token}` : '',
           },
         });
         if (!response.ok) throw new Error('Failed to fetch user data');

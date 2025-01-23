@@ -166,6 +166,7 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
+  console.log('🔍 [Server] Fetching latest assessment...');
   try {
     await connectToDatabase();
     const cookieStore = await cookies();

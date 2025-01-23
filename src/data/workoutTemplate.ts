@@ -14,7 +14,21 @@ export const workoutTemplate = {
     injuries: [],
     equipment: [],
     weatherAlternatives: true,
-    indoorOptions: {}
+    indoorOptions: {},
+    injuryModifications: {
+      knee: {
+        avoid: ['jumping', 'deep squats'],
+        substitute: ['swimming', 'upper body focus']
+      },
+      shoulder: {
+        avoid: ['overhead press', 'swimming'],
+        substitute: ['leg focus', 'core work']
+      },
+      back: {
+        avoid: ['heavy deadlifts', 'high-impact'],
+        substitute: ['bodyweight', 'stability work']
+      }
+    }
   },
   progressionRules: {
     swimProgression: {
@@ -117,6 +131,27 @@ export const workoutTemplate = {
       "Light stretching",
       "Mental preparation"
     ]
+  }
+};
+
+export const progressionRules: { [key: string]: ProgressionRule } = {
+  strength: {
+    baseVolume: 12,
+    weeklyIncrease: 0.1,
+    maxVolume: 25,
+    deloadWeeks: [4, 8]
+  },
+  endurance: {
+    baseVolume: 30,
+    weeklyIncrease: 0.15,
+    maxVolume: 90,
+    deloadWeeks: [4, 8]
+  },
+  hiit: {
+    baseVolume: 20,
+    weeklyIncrease: 0.12,
+    maxVolume: 45,
+    deloadWeeks: [4, 8]
   }
 };
 

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { cookies, headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import { verify } from 'jsonwebtoken';
 import connectToDatabase from '@/lib/mongodb';
 import User from '@/models/User';
@@ -7,53 +7,30 @@ import Assessment from '@/models/Assessment';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    await connectToDatabase();
     const cookieStore = await cookies();
-    const headerList = await headers();
-    
-    // Check both cookie and Authorization header
-    const cookieToken = cookieStore.get('token');
-    const authHeader = headerList.get('authorization');
-    const bearerToken = authHeader?.startsWith('Bearer ') ? authHeader.substring(7) : null;
-    
-    const token = cookieToken?.value || bearerToken;
+    const token = cookieStore.get('token');
 
-    if (!token) {
-      return NextResponse.json(
-        { error: 'Not authenticated' },
-        { status: 401 }
-      );
+    if (!token?.value) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    try {
-      const decoded = verify(token, JWT_SECRET) as { userId: string };
-      await connectToDatabase();
-
-      const user = await User.findById(decoded.userId).select('-password');
-      if (!user) {
-        return NextResponse.json(
-          { error: 'User not found' },
-          { status: 404 }
-        );
-      }
-
-      const assessment = await Assessment.findOne({ userId: user._id });
-
-      return NextResponse.json({
-        user,
-        assessment
-      });
-    } catch (jwtError) {
-      return NextResponse.json(
-        { error: 'Invalid token' },
-        { status: 401 }
-      );
+    const decoded = verify(token.value, JWT_SECRET) as { userId: string };
+    const user = await User.findById(decoded.userId);
+    if (!user) {
+      return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
+
+    const assessment = user.assessmentId
+      ? await Assessment.findById(user.assessmentId)
+      : null;
+
+    return NextResponse.json({ user, assessment });
   } catch (error) {
-    console.error('Error in user route:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { message: 'Error fetching user data', error: (error as Error).message },
       { status: 500 }
     );
   }

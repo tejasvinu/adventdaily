@@ -33,36 +33,36 @@ export const eightWeekPlan: TrainingPlan = {
       workouts: {
         [trainingDates[dateIndex++]]: {
           type: '🏋️ Strength',
-          description: 'Full Body Basics',
+          description: 'Full body strength foundation focusing on the six main movement patterns: squat, hinge, push, pull, carry, and core. Emphasize proper form and controlled tempo.',
           category: 'Strength',
           sets: 3,
-          reps: '10-12',
-          intensity: 'Light to Moderate',
-          notes: 'Focus on form for squats, lunges, push-ups, planks'
+          reps: 12,
+          intensity: 'Low',
+          notes: 'Focus exercises: Goblet squats (3x12), Romanian deadlifts (3x10), Push-ups (3x10-12), Assisted pull-ups (3x8-10), Farmers walks (3x30m), Plank holds (3x30s)'
         },
         [trainingDates[dateIndex++]]: {
           type: '🏃‍♂️ Cardio',
-          description: 'Easy Pace Run',
+          description: 'Zone 2 endurance development run with focus on maintaining consistent heart rate and proper running form. Include dynamic warm-up and form drills.',
           category: 'Cardio',
           duration: '20-30 min',
           intensity: 'Low',
-          notes: 'Keep heart rate in zone 2'
+          notes: 'Run form cues: Mid-foot strike, upright posture, relaxed shoulders, arms at 90°. Keep heart rate between 120-140 BPM.'
         },
         [trainingDates[dateIndex++]]: {
           type: '🏊‍♂️ Swim',
-          description: 'Technique Drills',
+          description: 'Technical swim session focusing on stroke efficiency, body position, and breathing patterns. Include drill sets and short distance repeats.',
           category: 'Cardio',
           duration: '30 min',
           intensity: 'Low',
-          notes: 'Focus on stroke efficiency and breathing patterns'
+          notes: 'Drills: Catch-up drill (4x50m), Side-kick drill (4x50m), Balance drill (4x25m). Focus on horizontal body position and bilateral breathing.'
         },
         [trainingDates[dateIndex++]]: {
           type: '🚴‍♂️ Cycle',
-          description: 'Base Ride',
+          description: 'Foundational ride focusing on pedaling efficiency and maintaining consistent cadence. Include seated and standing intervals.',
           category: 'Cardio',
           duration: '45 min',
           intensity: 'Moderate',
-          notes: 'Maintain steady cadence 80-90 rpm'
+          notes: 'Maintain cadence 80-90 rpm. Include 5x2min standing climbs. Focus on smooth pedal stroke and core engagement.'
         }
       }
     },
@@ -77,28 +77,28 @@ export const eightWeekPlan: TrainingPlan = {
       workouts: {
         [trainingDates[dateIndex++]]: {
           type: '🏋️ Strength',
-          description: 'Progressive Loading',
+          description: 'Progressive overload session targeting major muscle groups with emphasis on compound movements and time under tension.',
           category: 'Strength',
           sets: 3,
-          reps: '8-10',
+          reps: 10,
           intensity: 'Moderate',
-          notes: 'Increase weights by 5-10% from last week'
+          notes: 'Key exercises: Back squats (4x8), Barbell rows (3x10), Dumbbell bench press (3x8), Walking lunges (3x12/leg), Core circuit (3 rounds)'
         },
         [trainingDates[dateIndex++]]: {
           type: '🏃‍♂️ Speed Work',
-          description: 'Interval Training',
+          description: 'Introduction to interval training with focus on form maintenance during higher intensity efforts. Include proper warm-up and cool-down.',
           category: 'Cardio',
           duration: '35 min',
           intensity: 'High',
-          notes: '5x(2 min hard, 1 min easy)'
+          notes: 'Workout structure: 10min warm-up, 5x(2min @85% effort, 1min easy jog), 10min cool-down. Focus on maintaining form during high-intensity intervals.'
         },
         [trainingDates[dateIndex++]]: {
           type: '🧘‍♂️ Recovery',
-          description: 'Active Recovery',
+          description: 'Active recovery session combining mobility work, light stretching, and nervous system reset. Focus on problem areas and recovery techniques.',
           category: 'Recovery',
           duration: '40 min',
           intensity: 'Very Low',
-          notes: 'Light stretching and foam rolling'
+          notes: 'Include: Hip mobility routine (10min), thoracic mobility work (10min), foam rolling major muscle groups (15min), breathing exercises (5min)'
         }
       }
     },
@@ -116,7 +116,7 @@ export const eightWeekPlan: TrainingPlan = {
           description: 'Brick Session',
           category: 'Cardio',
           duration: '60 min',
-          intensity: 'Moderate-High',
+          intensity: 'High',
           notes: '30 min swim followed by 30 min run'
         }
       }
@@ -135,8 +135,8 @@ export const eightWeekPlan: TrainingPlan = {
           description: 'Deload Week',
           category: 'Strength',
           sets: 2,
-          reps: '12-15',
-          intensity: 'Light',
+          reps: 15,
+          intensity: 'Low',
           notes: 'Focus on form and recovery'
         }
       }
@@ -218,7 +218,7 @@ export const eightWeekPlan: TrainingPlan = {
           description: 'Speed Work',
           category: 'Cardio',
           duration: '60 min',
-          intensity: 'Very High',
+          intensity: 'High',
           notes: '10x100m sprints with 45 sec rest'
         },
         [trainingDates[dateIndex++]]: {
@@ -226,8 +226,8 @@ export const eightWeekPlan: TrainingPlan = {
           description: 'Peak Power',
           category: 'Strength',
           sets: 5,
-          reps: '5',
-          intensity: 'Maximum',
+          reps: 5,
+          intensity: 'High',
           notes: 'Focus on explosive power, full recovery between sets'
         },
         [trainingDates[dateIndex++]]: {
@@ -235,7 +235,7 @@ export const eightWeekPlan: TrainingPlan = {
           description: 'Hill Repeats',
           category: 'Cardio',
           duration: '75 min',
-          intensity: 'Very High',
+          intensity: 'High',
           notes: '8x4 min hill climbs at threshold'
         },
         [trainingDates[dateIndex++]]: {
@@ -270,8 +270,8 @@ export const eightWeekPlan: TrainingPlan = {
           description: 'Maintenance',
           category: 'Strength',
           sets: 2,
-          reps: '10',
-          intensity: 'Light',
+          reps: 10,
+          intensity: 'Low',
           notes: 'Light weights, perfect form'
         },
         [trainingDates[dateIndex++]]: {
