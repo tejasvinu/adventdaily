@@ -13,8 +13,8 @@ export default function Home() {
           className="text-center mb-20"
         >
           <h1 className="text-5xl sm:text-7xl font-bold text-gray-900 dark:text-white mb-8">
-            Transform into a
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"> Triathlete </span>
+            Build Better
+            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"> Daily Habits </span>
           </h1>
           <motion.p 
             initial={{ opacity: 0 }}
@@ -22,44 +22,44 @@ export default function Home() {
             transition={{ delay: 0.3 }}
             className="text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto"
           >
-            Your personalized to triathlon mastery
+            Your personal journey to mindful daily growth
           </motion.p>
 
           <div className="flex gap-6 justify-center mb-16">
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="/create-plan"
+              href="/register"
               className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition-all"
             >
-              Begin Your Journey
+              Start Your Journey
             </motion.a>
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              href="/sample-plan"
+              href="/demo"
               className="bg-white text-blue-600 px-10 py-4 rounded-full font-semibold border-2 border-blue-600 hover:bg-blue-50 transition-all"
             >
-              View Sample Plan
+              View Demo
             </motion.a>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left mb-20">
             {[
               {
-                icon: "🏊‍♂️",
-                title: "Swim Training",
-                desc: "Master the water with expert technique analysis"
+                icon: "📝",
+                title: "Daily Reflections",
+                desc: "Capture your thoughts and progress with guided journaling"
               },
               {
-                icon: "🚴‍♂️",
-                title: "Cycling Progress",
-                desc: "Dominate the roads with power-based training"
+                icon: "⚡",
+                title: "Habit Tracking",
+                desc: "Build and maintain positive daily routines"
               },
               {
-                icon: "🏃‍♂️",
-                title: "Run Development",
-                desc: "Perfect your pace with smart progression"
+                icon: "📊",
+                title: "Progress Insights",
+                desc: "Visualize your growth with detailed analytics"
               }
             ].map((item, index) => (
               <motion.div
@@ -78,47 +78,47 @@ export default function Home() {
           </div>
 
           <section className="mb-20">
-            <h2 className="text-3xl font-bold mb-8">Adaptive Training Features</h2>
+            <h2 className="text-3xl font-bold mb-8">Smart Features</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl">
-                <h3 className="text-xl font-semibold mb-4">Dynamic Plan Adjustment</h3>
+                <h3 className="text-xl font-semibold mb-4">Personalized Experience</h3>
                 <ul className="text-left space-y-3">
-                  <li>• Real-time workout modifications based on performance</li>
-                  <li>• Recovery-based training intensity adjustments</li>
-                  <li>• Weather-adaptive outdoor session alternatives</li>
-                  <li>• Schedule flexibility for work-life balance</li>
+                  <li>• Customizable habit templates</li>
+                  <li>• Intelligent reminder system</li>
+                  <li>• Mood and energy tracking</li>
+                  <li>• Goal-setting assistance</li>
                 </ul>
               </div>
               <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-xl">
-                <h3 className="text-xl font-semibold mb-4">Progress Tracking</h3>
+                <h3 className="text-xl font-semibold mb-4">Powerful Analytics</h3>
                 <ul className="text-left space-y-3">
-                  <li>• Discipline-specific performance metrics</li>
-                  <li>• Transition practice timing</li>
-                  <li>• Weekly progress reports</li>
-                  <li>• Race-day readiness indicators</li>
+                  <li>• Detailed progress reports</li>
+                  <li>• Habit correlation insights</li>
+                  <li>• Success streak tracking</li>
+                  <li>• Personal trend analysis</li>
                 </ul>
               </div>
             </div>
           </section>
 
           <section className="text-left mb-20">
-            <h2 className="text-3xl font-bold mb-8 text-center">2-Month Plan Overview</h2>
+            <h2 className="text-3xl font-bold mb-8 text-center">Your Growth Journey</h2>
             <div className="space-y-6">
               <div className="border-l-4 border-blue-600 pl-4">
-                <h3 className="font-semibold mb-2">Weeks 1-2: Foundation</h3>
-                <p className="text-gray-600 dark:text-gray-300">Base endurance building and technique focus</p>
+                <h3 className="font-semibold mb-2">Phase 1: Foundation</h3>
+                <p className="text-gray-600 dark:text-gray-300">Set up your personal habits and reflection routine</p>
               </div>
               <div className="border-l-4 border-blue-500 pl-4">
-                <h3 className="font-semibold mb-2">Weeks 3-4: Build Phase</h3>
-                <p className="text-gray-600 dark:text-gray-300">Increasing intensity and brick workouts</p>
+                <h3 className="font-semibold mb-2">Phase 2: Development</h3>
+                <p className="text-gray-600 dark:text-gray-300">Build consistency and track your progress</p>
               </div>
               <div className="border-l-4 border-blue-400 pl-4">
-                <h3 className="font-semibold mb-2">Weeks 5-6: Peak Training</h3>
-                <p className="text-gray-600 dark:text-gray-300">Race-specific workouts and endurance peaks</p>
+                <h3 className="font-semibold mb-2">Phase 3: Mastery</h3>
+                <p className="text-gray-600 dark:text-gray-300">Analyze patterns and optimize your routines</p>
               </div>
               <div className="border-l-4 border-blue-300 pl-4">
-                <h3 className="font-semibold mb-2">Weeks 7-8: Taper & Race Prep</h3>
-                <p className="text-gray-600 dark:text-gray-300">Recovery, race simulation, and final preparations</p>
+                <h3 className="font-semibold mb-2">Phase 4: Integration</h3>
+                <p className="text-gray-600 dark:text-gray-300">Transform habits into lasting lifestyle changes</p>
               </div>
             </div>
           </section>
@@ -127,7 +127,7 @@ export default function Home() {
 
       <footer className="border-t border-gray-200 dark:border-gray-700 py-8">
         <div className="max-w-6xl mx-auto px-4 text-center text-gray-600 dark:text-gray-400">
-          © 2025 AdventDaily. Your triathlon journey starts here.
+          © 2025 AdventDaily. Your daily growth companion.
         </div>
       </footer>
     </div>
