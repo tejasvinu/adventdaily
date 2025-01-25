@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { IUser } from '@/models/User';
-import { IAssessment } from '@/models/Assessment';
+import { IAssessment } from '@/types/assessment';
 
 interface UserData {
   user: IUser | null;

@@ -1,3 +1,5 @@
+import { Document } from 'mongoose';
+
 export interface AssessmentFormData {
   personalInfo: {
     age: string;  // Keep as string for form handling
@@ -105,9 +107,10 @@ export interface AssessmentFormData {
   };
 }
 
-export interface AssessmentDocument extends Omit<AssessmentFormData, 'personalInfo' | 'physicalMetrics'> {
+// Base interface without userId
+export interface BaseAssessment extends Omit<AssessmentFormData, 'personalInfo' | 'physicalMetrics'> {
   personalInfo: {
-    age: number;  // Stored as number in DB
+    age: number;
     gender: string;
     location: string;
   };
@@ -118,7 +121,19 @@ export interface AssessmentDocument extends Omit<AssessmentFormData, 'personalIn
     restingHeartRate: number;
     maxHeartRate: number;
   };
-  review: string; // Stores the generated assessment review
+  review: string;
+}
+
+// Frontend/API version with string userId
+export interface AssessmentDocument extends BaseAssessment {
+  userId: string;
+}
+
+// Database version with ObjectId userId
+export interface IAssessment extends Document, BaseAssessment {
+  userId: Document['_id'];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export type FormStepProps = {

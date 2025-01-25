@@ -1,4 +1,4 @@
-import { TrainingPlan, WorkoutData } from '../types/workout';
+import { TrainingPlan, WorkoutData, ProgressionRule } from '../types/workout';
 
 export const workoutTemplate = {
   metadata: {

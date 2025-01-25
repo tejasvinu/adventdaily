@@ -1,4 +1,4 @@
-import { ProgressionRule, WorkoutData } from '@/types/workout';
+import { ProgressionRule, WorkoutData, Intensity } from '@/types/workout';
 
 export const progressionService = {
   calculateProgression: (
@@ -52,12 +52,12 @@ export const progressionService = {
 };
 
 function calculateNewIntensity(
-  currentIntensity: string | undefined,
+  currentIntensity: Intensity | undefined,
   weekNumber: number
-): string {
+): Intensity {
   if (!currentIntensity) return 'Moderate';
   
-  const intensityLevels = [
+  const intensityLevels: Intensity[] = [
     'Very Low',
     'Low',
     'Light',
@@ -68,7 +68,7 @@ function calculateNewIntensity(
   ];
 
   const currentIndex = intensityLevels.indexOf(currentIntensity);
-  if (currentIndex === -1) return currentIntensity;
+  if (currentIndex === -1) return 'Moderate';
 
   // Progress intensity every 2 weeks
   const progressionSteps = Math.floor((weekNumber - 1) / 2);

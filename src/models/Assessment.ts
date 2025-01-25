@@ -1,11 +1,5 @@
-import mongoose, { Schema, Document } from 'mongoose';
-import { AssessmentDocument } from '@/types/assessment';
-
-export interface IAssessment extends Document, AssessmentDocument {
-  userId: mongoose.Types.ObjectId;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import mongoose, { Schema } from 'mongoose';
+import { IAssessment } from '@/types/assessment';
 
 const AssessmentSchema = new Schema({
   userId: { 
@@ -126,4 +120,4 @@ const AssessmentSchema = new Schema({
   timestamps: true
 });
 
-export default mongoose.models.Assessment || mongoose.model<IAssessment>('Assessment', AssessmentSchema);
+export default mongoose.model<IAssessment>('Assessment', AssessmentSchema);

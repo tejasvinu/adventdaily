@@ -40,6 +40,7 @@ export const progressService = {
     const key = `workout-progress-${workoutId}-${date}`;
     if (!localStorage.getItem(key)) {
       const initialProgress: WorkoutProgress = {
+        id: `${workoutId}-${date}`,
         workoutId,
         date,
         completed: false,

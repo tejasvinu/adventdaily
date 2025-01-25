@@ -1,4 +1,11 @@
-export type Intensity = 'High' | 'Moderate' | 'Low';
+export type Intensity = 
+  | 'Very Low' 
+  | 'Low' 
+  | 'Light'
+  | 'Moderate' 
+  | 'Moderate-High'
+  | 'High' 
+  | 'Very High';
 
 export interface WorkoutData {
   type: string;
@@ -6,7 +13,7 @@ export interface WorkoutData {
   category: 'Strength' | 'Cardio' | 'Recovery';
   duration?: string;
   sets?: number;
-  reps?: number;
+  reps?: number | string;  // Modified to accept both number and string
   intensity?: Intensity;
   notes: string;
 }
@@ -44,14 +51,31 @@ export interface WorkoutWithProgress extends WorkoutData {
   progress?: WorkoutProgress;
 }
 
-export interface WorkoutTemplate {
+// Consolidate template interfaces
+export interface WorkoutTemplateStructure {
   warmup: string;
   mainSet: string;
   cooldown: string;
+}
+
+export type WorkoutTemplate = WorkoutTemplateStructure & {
   progression?: {
     volumeIncrease: string;
     intensityIncrease: string;
     recoveryWeeks: number[];
+  };
+}
+
+// Change WorkoutTemplateMap back to WorkoutTemplates
+export interface WorkoutTemplates {
+  swim: {
+    [key in SwimSubCategory]: WorkoutTemplateStructure;
+  };
+  bike: {
+    [key in BikeSubCategory]: WorkoutTemplateStructure;
+  };
+  run: {
+    [key in RunSubCategory]: WorkoutTemplateStructure;
   };
 }
 
@@ -85,3 +109,10 @@ export interface WorkoutPlan {
   weeks: WeekPlan[];
   duration: number;
 }
+
+export type WorkoutCategory = 'swim' | 'bike' | 'run';
+export type WorkoutSubCategory = 'technique' | 'endurance' | 'speed';
+
+export type SwimSubCategory = 'technique' | 'endurance' | 'speed';
+export type BikeSubCategory = 'base' | 'intervals';
+export type RunSubCategory = 'easy' | 'tempo';  // Updated to match actual template structure

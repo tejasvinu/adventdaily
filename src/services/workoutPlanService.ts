@@ -1,5 +1,14 @@
 import { generateAssessmentReview } from '@/utils/ai';
-import { TrainingPlan, WorkoutData } from '@/types/workout';
+import { 
+  TrainingPlan, 
+  WorkoutData, 
+  WorkoutTemplates,  
+  WorkoutTemplateStructure,
+  SwimSubCategory,
+  BikeSubCategory,
+  RunSubCategory,
+  Intensity
+} from '@/types/workout';
 import { workoutTemplate } from '@/data/workoutTemplate';
 import { AssessmentDocument } from '@/types/assessment';
 
@@ -53,7 +62,7 @@ const generateWorkoutPlan = async (assessment: AssessmentDocument): Promise<Trai
     );
 
     plan.weeks.push(weekPlan);
-    dateIndex += weekPlan.workouts.length;
+    dateIndex += weekPlan.daysAssigned;
   }
 
   return plan;
@@ -82,12 +91,14 @@ const generateWeekPlan = async (
     aiReview: string;
   }
 ) => {
-  // Use AI to generate an appropriate theme and goals based on week number and assessment
-  const weekTheme = `Week ${weekNumber} Focus`;
+  const weekTheme = getWeekTheme(weekNumber, params.aiReview);
   const weeklyWorkouts: { [key: string]: WorkoutData } = {};
 
   // Get available workout templates based on facilities and level
-  const templates = filterWorkoutTemplates(params);
+  const availableTemplates = filterWorkoutTemplates(params);
+
+  // Track number of workouts created
+  let daysAssigned = 0;
 
   // Generate workouts for available days
   params.availableDays.forEach((day, index) => {
@@ -97,9 +108,11 @@ const generateWeekPlan = async (
         day,
         weekNumber,
         params.userLevel,
-        templates
+        availableTemplates,
+        params.weeklyCapacity / params.availableDays.length
       );
       weeklyWorkouts[dates[dateIndex]] = workout;
+      daysAssigned++;
     }
   });
 
@@ -107,43 +120,70 @@ const generateWeekPlan = async (
     weekNumber,
     theme: weekTheme,
     goals: generateWeeklyGoals(weekNumber, params),
-    workouts: weeklyWorkouts
+    workouts: weeklyWorkouts,
+    daysAssigned  // Return this for the parent function to use
   };
 };
 
-const filterWorkoutTemplates = (params: any) => {
-  const templates = { ...workoutTemplate.workoutTemplates };
-  if (!params.hasPoolAccess) delete templates.swim;
-  if (!params.hasGymAccess) {
-    // Modify strength templates to use bodyweight exercises
+const filterWorkoutTemplates = (params: {
+  hasPoolAccess: boolean;
+  hasGymAccess: boolean;
+}): Partial<WorkoutTemplates> => {
+  const templates = {} as Partial<WorkoutTemplates>;
+  
+  // Only include swim if pool access is available
+  if (params.hasPoolAccess) {
+    templates.swim = workoutTemplate.workoutTemplates.swim;
   }
+  
+  // Always include run
+  templates.run = workoutTemplate.workoutTemplates.run;
+  
+  // Include bike if gym access (assuming gym has bikes)
+  if (params.hasGymAccess) {
+    templates.bike = workoutTemplate.workoutTemplates.bike;
+  }
+  
   return templates;
 };
 
-const generateWorkoutForDay = (
+const getWeekTheme = (weekNumber: number, aiReview: string): string => {
+  // Implementation needed
+  return `Week ${weekNumber} Focus: ${aiReview.slice(0, 50)}...`;
+};
+
+function generateWorkoutForDay(
   day: string,
   weekNumber: number,
   userLevel: string,
-  templates: any
-): WorkoutData => {
-  // Implementation would use the template structure to generate appropriate workouts
-  // This is a placeholder that would need to be expanded
-  return {
-    type: '🏃‍♂️ Run',
-    description: 'Generated workout for ' + day,
-    category: 'Cardio',
-    duration: '30 min',
-    intensity: 'Moderate',
-    notes: 'AI-generated based on user level and week number'
-  };
-};
+  templates: Partial<WorkoutTemplates>,
+  targetDuration: number
+): WorkoutData {
+  const workoutTypes = Object.keys(templates);
+  const selectedType = workoutTypes[weekNumber % workoutTypes.length];
 
-const generateWeeklyGoals = (weekNumber: number, params: any): string[] => {
-  // Implementation would generate appropriate goals based on week number and user parameters
+  return {
+    type: selectedType,
+    description: `${selectedType.charAt(0).toUpperCase() + selectedType.slice(1)} workout for ${day}`,
+    category: 'Cardio',
+    duration: `${Math.floor(targetDuration)} min`,
+    intensity: determineIntensity(weekNumber, userLevel) as Intensity,
+    notes: `Week ${weekNumber} ${userLevel}-level workout`
+  };
+}
+
+function determineIntensity(weekNumber: number, userLevel: string): Intensity {
+  // Use weekNumber to progressively increase intensity
+  const baseIntensity: Intensity = userLevel === 'beginner' ? 'Low' :
+                                 userLevel === 'intermediate' ? 'Moderate' : 'High';
+  return baseIntensity;
+}
+
+const generateWeeklyGoals = (weekNumber: number, params: { userLevel: string, aiReview: string }): string[] => {
   return [
-    'Establish baseline intensity',
-    'Focus on proper form',
-    'Build endurance'
+    `Week ${weekNumber} ${params.userLevel} level focus`,
+    'Progressive overload application',
+    `Based on AI review: ${params.aiReview.slice(0, 30)}...`
   ];
 };
 

@@ -1,7 +1,15 @@
+import { 
+  TrainingPlan, 
+  WorkoutData, 
+  WorkoutTemplates,  // Ensure this matches the exported interface name
+  WorkoutTemplateStructure,
+  SwimSubCategory,
+  BikeSubCategory,
+  RunSubCategory 
+} from '@/types/workout';
+import { AssessmentDocument } from '@/types/assessment';
 import { generateAssessmentReview } from '@/utils/ai';
 import { workoutTemplate } from '@/data/workoutTemplate';
-import { TrainingPlan, WorkoutData } from '@/types/workout';
-import { AssessmentDocument } from '@/types/assessment';
 
 function createPromptFromAssessment(assessment: AssessmentDocument): string {
   return `Generate a detailed 8-week training plan considering:
@@ -70,23 +78,59 @@ export const planGeneratorService = {
 
 // Helper function to standardize workout data
 function standardizeWorkout(workout: WorkoutData, assessment: AssessmentDocument): WorkoutData {
-  const template = workoutTemplate.workoutTemplates[workout.type.toLowerCase()];
+  const [category, rawSubCategory] = workout.type.toLowerCase().split('-');
+  const templates = workoutTemplate.workoutTemplates as unknown as WorkoutTemplates;
   
   // Apply any injury modifications
   if (assessment.medical.hasInjuries) {
     workout = planGeneratorService.modifyForInjuries(workout, assessment.medical.injuries);
   }
   
-  // Apply template structure
-  if (template) {
-    workout.description = `${workout.description}\n\nStructure:\n${template.warmup}\n${template.mainSet}\n${template.cooldown}`;
+  // Apply template structure if valid category and subCategory exist
+  if (category && rawSubCategory) {
+    switch (category) {
+      case 'swim':
+        if (isSwimSubCategory(rawSubCategory)) {
+          const template = templates.swim[rawSubCategory];
+          workout.description = buildDescription(workout.description, template);
+        }
+        break;
+      case 'bike':
+        if (isBikeSubCategory(rawSubCategory)) {
+          const template = templates.bike[rawSubCategory];
+          workout.description = buildDescription(workout.description, template);
+        }
+        break;
+      case 'run':
+        if (isRunSubCategory(rawSubCategory)) {
+          const template = templates.run[rawSubCategory];
+          workout.description = buildDescription(workout.description, template);
+        }
+        break;
+    }
   }
   
   return {
     ...workout,
-    // Ensure all required fields are present
     category: workout.category || 'Cardio',
     intensity: workout.intensity || 'Moderate',
     notes: workout.notes || 'Focus on proper form and technique'
   };
+}
+
+// Type guard functions
+function isSwimSubCategory(value: string): value is SwimSubCategory {
+  return ['technique', 'endurance', 'speed'].includes(value);
+}
+
+function isBikeSubCategory(value: string): value is BikeSubCategory {
+  return ['base', 'intervals'].includes(value);
+}
+
+function isRunSubCategory(value: string): value is RunSubCategory {
+  return ['easy', 'tempo'].includes(value);  // Updated to match actual template values
+}
+
+function buildDescription(description: string, template: WorkoutTemplateStructure): string {
+  return `${description}\n\nStructure:\n${template.warmup}\n${template.mainSet}\n${template.cooldown}`;
 }

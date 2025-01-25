@@ -97,7 +97,7 @@ export const eightWeekPlan: TrainingPlan = {
           description: 'Active recovery session combining mobility work, light stretching, and nervous system reset. Focus on problem areas and recovery techniques.',
           category: 'Recovery',
           duration: '40 min',
-          intensity: 'Very Low',
+          intensity: 'Low',
           notes: 'Include: Hip mobility routine (10min), thoracic mobility work (10min), foam rolling major muscle groups (15min), breathing exercises (5min)'
         }
       }
@@ -287,7 +287,7 @@ export const eightWeekPlan: TrainingPlan = {
           description: 'Final Assessment',
           category: 'Recovery',
           duration: '60 min',
-          intensity: 'Very Low',
+          intensity: 'Low',
           notes: 'Mobility work and progress evaluation'
         }
       }
